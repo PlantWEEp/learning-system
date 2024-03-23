@@ -2,20 +2,22 @@ const express = require('express');
 const z = require("zod");
 const User = require("../models/admin.model");
 
+
 const registerSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   password: z.string().min(6),
 });
 
+
 // const registerUser = async (req, res) => {
-//   try {
-//     console.log("hello get route");
-//     res.send("GET request to the user route");
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("Internal Server Error");
-//   }
+  // try {
+  //   console.log("hello get route");
+  //   res.send("GET request to the user route");
+  // } catch (error) {
+  //   console.log(error);
+  //   res.status(500).send("Internal Server Error");
+  // }
 // };
 
 const adminLogin =  async (req, res) => {
