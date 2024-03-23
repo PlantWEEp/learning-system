@@ -1,8 +1,9 @@
-
+// userRoutes.js
 const express = require('express');
 const router = express.Router();
-const registerUser = require('../controllers/user');
+const { adminLogin } = require('../controllers/user');
 
-router.post('/register', registerUser);
+// Define route for GET request to register user
+router.post('/', adminLogin);
 
 module.exports = router;
