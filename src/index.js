@@ -2,6 +2,7 @@ const express = require("express");
 const connectDB = require("./db/connectDB");
 const bodyParser = require("body-parser");
 const userRoutes = require('./routes/user.routes');
+const questionRoutes = require('./routes/questionanswercorrection.routes')
 
 require('dotenv').config();
 const app = express();
@@ -9,6 +10,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use('/api/users', userRoutes);
+app.use('/api', questionRoutes);
 
 connectDB()
   .then(() => {
