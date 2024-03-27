@@ -12,7 +12,7 @@ const questionanswerSchema = z.object({
 
 const studentanswers = async (req, res) => {
     try {
-        const questionanswerData = questionanswerSchema.parse(req.body);
+        const questionanswerData = questionanswerSchema.safeParse(req.body);
         const { question, answer, wronganswer, description, category } = questionanswerData;
 
         // Create a new question-answer document

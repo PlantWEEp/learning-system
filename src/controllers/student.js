@@ -13,9 +13,10 @@ const studentRegister = z.object({
 
   const studentLogin =  async (req, res) => {
     try {
-      const studentData = studentRegister.parse(req.body);
+      const studentData = studentRegister.safeParse(req.body);
   
       const existingStudent = await Student.findOne({ email: studentData.email });
+      
       if (existingStudent) {
         throw new Error("This email is already taken");
       }
