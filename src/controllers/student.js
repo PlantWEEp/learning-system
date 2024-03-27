@@ -41,10 +41,22 @@ const studentRegister = z.object({
     }
   };
 
-  
+  const getStudentLogin = async (req, res) => {
+    try {
+      const allStudents = await Student.find();
+
+      res.status(200).json({ students: allStudents, message: "Data retrieved successfully" });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Failed to retrieve students data" });
+    }
+  };
+
   
   module.exports = {
-    studentLogin
+    studentLogin,
+    getStudentLogin
   };
 
 

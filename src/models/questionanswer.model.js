@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const questionAnswerSchema = new Schema({
+const questionSchema = new Schema({
+   
     question: {
         type: String,
         required: true
@@ -13,16 +14,21 @@ const questionAnswerSchema = new Schema({
     wronganswer: [{
         type: String,
         required: true
-      }],
+    }],
     description: {
         type: String,
-        required:true
+        required: true
     },
     category: {
         type: String,
-        required:true,
-        enum: ["easy","medium","difficult"]
-    },
+        required: true
+    }
+});
+
+const questionAnswerSchema = new Schema({
+    section: [questionSchema],
+ 
 });
 
 module.exports = mongoose.model("QuestionAnswer", questionAnswerSchema);
+
