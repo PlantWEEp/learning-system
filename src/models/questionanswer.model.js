@@ -1,34 +1,28 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const { Schema, model } = require("mongoose");
 
 const questionSchema = new Schema({
-   
-    question: {
-        type: String,
-        required: true
-    },
-    answer: {
-        type: String,
-        required: true
-    },
-    wronganswer: [{
-        type: String,
-        required: true
-    }],
-    description: {
-        type: String,
-        required: true
-    },
-    category: {
-        type: String,
-        required: true
-    }
+  sectionName:{
+    type:String,
+    required:true
+  },
+  question: {
+    type: String,
+    required: true,
+  },
+  choices: [{
+    value: String,
+    isCorrect: Boolean,
+  }
+],
+  description: {
+    type: String,
+    required: true,
+  },
+  category: {
+    type: String,
+    required: true,
+    enum: ["Easy", "Medium", "Hard"],
+  },
 });
-
-const questionAnswerSchema = new Schema({
-    section: [questionSchema],
  
-});
-
-module.exports = mongoose.model("QuestionAnswer", questionAnswerSchema);
-
+module.exports = model("QuestionAnswer", questionSchema);

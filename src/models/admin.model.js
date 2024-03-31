@@ -12,10 +12,7 @@ const adminSchema = new Schema({
     email: { 
         type: String,
         required: true, 
-    },
-    // role: {
-    //     type: String, 
-    // }
+    }
 });
 
 module.exports = mongoose.model("Admin", adminSchema);
