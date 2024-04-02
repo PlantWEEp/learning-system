@@ -11,22 +11,20 @@ const studentRegister = z.object({
   role: z.string()
 });
 
-function generatePassword() {
-  const letters = [1, 2, 3, 2, 4, "s", "e", "f", "s", "r", "g"];
-  let password = '';
- 
-  const passwordLength = 6;
-  for (let i = 0; i < passwordLength; i++) {
-    const randomIndex = Math.floor(Math.random() * letters.length);
-    password += letters[randomIndex];
-  }
-  return password; // Return the generated password
-}
-
 const registerStudent = async (req, res) => {
   try {
     const studentData = studentRegister.parse(req.body);
-
+    function generatePassword() {
+      const letters = [1, 2, 3, 2, 4, "s", "e", "f", "s", "r", "g"];
+      let password = '';
+     
+      const passwordLength = 6;
+      for (let i = 0; i < passwordLength; i++) {
+        const randomIndex = Math.floor(Math.random() * letters.length);
+        password += letters[randomIndex];
+      }
+      return password; // Return the generated password
+    }
     // Check if student with the same email exists
     const existingStudentByEmail = await studentSchema.findOne({
       email: studentData.email,
@@ -67,6 +65,48 @@ const registerStudent = async (req, res) => {
   }
 }; 
 
+const updateStudentRegister = async(req,res)=>{
+  const id = req.params.id;
+  const newData = req.body;
+  try { 
+    const updatedquestion = await studentSchema.findByIdAndUpdate(
+        id,
+        newData,
+        { new: true }
+    );
+    if (!updatedquestion) {
+        res.status(404).json({ message: "No document found to update" });
+    } else {
+        res.json({ message: "Document updated successfully" });
+    }
+} catch (error) {
+    console.error("Error updating data:", error);
+    res.status(500).json({ message: "Internal server error" });
+}
+}
+
+const deleteStudentRegister = async(req,res)=>{
+  const id = req.params.id;
+  const newData = req.body;
+  try { 
+    const updatedquestion = await studentSchema.findByIdAndDelete(
+        id,
+        newData,
+        { new: true }
+    );
+    if (!updatedquestion) {
+        res.status(404).json({ message: "No document found to delete" });
+    } else {
+        res.json({ message: "Document deleted successfully" });
+    }
+} catch (error) {
+    console.error("Error updating data:", error);
+    res.status(500).json({ message: "Internal server error" });
+}
+}
+
 module.exports = {
   registerStudent, 
+  updateStudentRegister,
+  deleteStudentRegister
 };
