@@ -81,8 +81,19 @@ const deleteAllQuestion = async (req, res) => {
     }
 };
 
+const getAllQuestion = async(req,res)=>{
+    try {
+    const students = await QuestionAnswer.find({}); 
+    res.json(students);
+  } catch (error) {
+    // If an error occurs, send an error response
+    console.error("Error retrieving student data:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+  }
 module.exports = {
     studentanswers,
     updatequestions,
-    deleteAllQuestion
+    deleteAllQuestion,
+    getAllQuestion
 };
