@@ -10,7 +10,7 @@ const studentRegister = z.object({
   UPItransactionid: z.number().min(12),
   role: z.string()
 });
-
+//post data
 const registerStudent = async (req, res) => {
   try {
     const studentData = studentRegister.parse(req.body);
@@ -64,7 +64,7 @@ const registerStudent = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 }; 
-
+//update data
 const updateStudentRegister = async(req,res)=>{
   const id = req.params.id;
   const newData = req.body;
@@ -84,7 +84,7 @@ const updateStudentRegister = async(req,res)=>{
     res.status(500).json({ message: "Internal server error" });
 }
 }
-
+//delete data
 const deleteStudentRegister = async(req,res)=>{
   const id = req.params.id;
   const newData = req.body;
@@ -104,9 +104,21 @@ const deleteStudentRegister = async(req,res)=>{
     res.status(500).json({ message: "Internal server error" });
 }
 }
+//get data
+const getStudentData = async(req,res)=>{
+  try {
+  const students = await studentSchema.find({}); 
+  res.json(students);
+} catch (error) {
+  // If an error occurs, send an error response
+  console.error("Error retrieving student data:", error);
+  res.status(500).json({ error: "Internal server error" });
+}
+}
 
 module.exports = {
   registerStudent, 
   updateStudentRegister,
-  deleteStudentRegister
+  deleteStudentRegister,
+  getStudentData
 };

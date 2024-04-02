@@ -1,6 +1,5 @@
 const z = require("zod");
-const Admin = require("../models/admin.model"); 
-const studentSchema = require("../models/studentRegisterSchema.model");
+const Admin = require("../models/admin.model");  
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -13,29 +12,7 @@ const registerSchema = z.object({
 const adminLoginz = z.object({
   email: z.string().email(),
   password: z.string(),
-});
-
-//studentRegistration
-const studentRegistration = async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    console.log("email :", email);
-
-    const foundStudent = await studentSchema.findOne({ email });
-
-    console.log("foundStudent :", foundStudent);
-
-    if (!foundStudent) {
-      return res.status(400).json({ error: "Email does not exist" });
-    }
-
-    res.status(200).json({ message: "User registered successfully" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error");
-  }
-};
+}); 
  
 // admin register  
 const adminRegister = async (req, res) => {
@@ -103,7 +80,6 @@ const adminLogin = async (req, res) => {
 };
 
 module.exports = {
-  adminLogin,
-  studentRegistration,
+  adminLogin, 
   adminRegister,
 };
