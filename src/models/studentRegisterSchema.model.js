@@ -3,8 +3,8 @@ const { Schema } = mongoose;
 
 const studentRegisterSchema = new Schema({
     studentEmail: {
-        type: Schema.Types.ObjectId,
-        ref: 'Student',
+        type: Schema.Types.String,
+        ref: 'Student',  
         required: true
     },
     password: {

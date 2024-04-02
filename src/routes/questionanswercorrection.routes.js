@@ -5,7 +5,7 @@ const { studentanswers, updatequestions,deleteAllQuestion,sectionData } = requir
 
 
 router.post('/questionanswer',studentanswers)
-router.put('/:id/:id',updatequestions)
+router.put('/:id',updatequestions)
 router.delete("/:id",deleteAllQuestion) 
 
 module.exports = router;

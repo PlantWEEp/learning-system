@@ -10,8 +10,8 @@ const app = express();
 
 app.use(bodyParser.json());
   
-app.use('/api/users', userRoutes);
-app.use('/api', questionRoutes);
+app.use('/api/admin', userRoutes);
+app.use('/api/question', questionRoutes);
 app.use('/api/student', studentRoutes);
 
 connectDB()

@@ -12,7 +12,6 @@ const questionanswerSchema = z.object({
     category: z.string() 
 });
 
-
 const studentanswers = async (req, res) => {
     try {
         const questionanswerData = questionanswerSchema.parse(req.body); 
@@ -43,8 +42,7 @@ const updatequestions = async (req, res) => {
     const id = req.params.id;
     const newData = req.body;
 
-    try {
-        console.log("ID received:", id);
+    try { 
         const updatedquestion = await QuestionAnswer.findByIdAndUpdate(
             id,
             newData,

@@ -28,8 +28,15 @@ const studentSchema = new Schema({
         type: Number,
         required: true,
         unique: true
+    },
+    role:{
+        type: String,
+        default: 'student'
+    },
+    password:{
+        type: String,
     }
-});
+}); 
 
 const Student = mongoose.model("Student", studentSchema);
 
