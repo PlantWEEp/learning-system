@@ -13,7 +13,7 @@ const adminLoginz = z.object({
   email: z.string().email(),
   password: z.string(),
 }); 
- 
+
 // admin register  
 const adminRegister = async (req, res) => {
   try {
@@ -54,16 +54,14 @@ const adminLogin = async (req, res) => {
     const adminUser = await Admin.findOne({ email });
 
     if (!adminUser) {
-      return res.status(401).json({ error: "admin Authentication failed" });
-    }  
-    
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
     const passwordMatch = await bcrypt.compare(password, adminUser.password);
 
     if (!passwordMatch) {
-      return res
-        .status(401)
-        .json({ error: "passwordMatch Authentication failed" });
-    } 
+      return res.status(401).json({ error: "Incorrect password" });
+    }
 
     const token = jwt.sign(
       {
@@ -75,11 +73,23 @@ const adminLogin = async (req, res) => {
     res.status(200).json({ token });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: "Failed to login" });
+    res.status(500).json({ message: "Internal Server Error" }); 
+  }
+}; 
+
+//logout  
+const adminLogout = async (req, res) => {
+  try { 
+    res.clearCookie('token');
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
 module.exports = {
   adminLogin, 
   adminRegister,
+  adminLogout
 };

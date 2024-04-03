@@ -1,29 +1,37 @@
- const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(403).json({});
-    } 
-
-    const token = authHeader.split(' ')[1];
-
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_KEY);
-
-        if(decoded.role === 'admin'){ 
-            req.userId = decoded.userId; 
-            next();
-        } else {
-            return res.status(403).json({ message: "Forbidden" });  
-        }
-
-    } catch (err) {
-        return res.status(403).json({});
+  
+    console.log("authHeader token :",authHeader);
+    
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: Missing or invalid token"
+      });
     }
-}; 
+  
+    const token = authHeader.split(" ")[1];
+  
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_KEY);
+      if (decoded.userId) {
+        req.userId = decoded.userId;
+        next(); 
+      } else {
+        return res.status(403).json({ message: "Forbidden" });
+      }
+    } catch (err) {
+      console.error(err);
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: Invalid token"
+      });
+    }
+  };
 
-module.exports = {
+  
+module.exports =  
     authMiddleware
-};
+ 

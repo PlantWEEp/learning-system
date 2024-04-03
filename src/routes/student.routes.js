@@ -7,7 +7,7 @@ const { registerStudent,updateStudentRegister,deleteStudentRegister,getStudentDa
 router.post('/registerstudent',registerStudent) 
 router.put('/:id',updateStudentRegister) 
 router.delete('/:id',deleteStudentRegister) 
-router.get('/get-student',getStudentData) 
+router.get('/get-student',getStudentData)
 
 
 module.exports = router;

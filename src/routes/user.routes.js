@@ -1,12 +1,11 @@
-// userRoutes.js
 const express = require('express');
 const router = express.Router();
-const { adminLogin,studentRegistration,adminRegister } = require('../controllers/user');
-const { authMiddleware } = require('../middleware/authmiddlware.js'); 
- 
- 
-router.post('/adminlogin',authMiddleware, adminLogin);
-router.post('/adminregister', adminRegister); 
+const { adminLogin,adminRegister, adminLogout } = require('../controllers/user'); 
+const authMiddleware = require('../middleware/authmiddlware'); 
 
+ 
+router.post('/login', adminLogin);
+router.post('/register', adminRegister); 
+router.post("/logout" , authMiddleware ,adminLogout)
 
 module.exports = router;
