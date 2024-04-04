@@ -11,8 +11,6 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
-
-
 const userRoutes = require('./routes/user.routes');
 const questionRoutes = require('./routes/questionanswercorrection.routes')
 const studentRoutes = require('./routes/student.routes')
