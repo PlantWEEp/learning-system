@@ -34,8 +34,7 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-//
-
+//role auth 
 function isAdmin(req, res, next) {
   if (req.user && req.user.role === 'admin') {
       return next();
