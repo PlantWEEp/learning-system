@@ -8,7 +8,7 @@ const authMiddleware = require('../middleware/authmiddlware');
 router.post('/registerstudent',authMiddleware,registerStudent) 
 router.put('/:id',authMiddleware,updateStudentRegister) 
 router.delete('/:id',authMiddleware,deleteStudentRegister) 
-router.get('/get-student',authMiddleware,getStudentData)
+router.get('/get-student' ,getStudentData)
 
 
 module.exports = router;

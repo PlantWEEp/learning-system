@@ -1,25 +1,20 @@
 const express = require("express");
 const connectDB = require("./db/connectDB");
-const bodyParser = require("body-parser");
-const cors = require('cors');
-
+const bodyParser = require("body-parser"); 
 
 require('dotenv').config();
-const app = express();
-app.use(cors());
+const app = express(); 
 
 app.use(bodyParser.json());
-
-
 
 
 const userRoutes = require('./routes/user.routes');
 const questionRoutes = require('./routes/questionanswercorrection.routes')
 const studentRoutes = require('./routes/student.routes')
   
-app.use('/api/admin', userRoutes);
-app.use('/api/question', questionRoutes);
-app.use('/api/student', studentRoutes);
+app.use('/api/v1/admin', userRoutes);
+app.use('/api/v1/question', questionRoutes);
+app.use('/api/v1/student', studentRoutes);
 
 connectDB()
   .then(() => {
