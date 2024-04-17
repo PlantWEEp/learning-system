@@ -68,14 +68,10 @@ const deleteAllQuestion = async (req, res) => {
 
   try {
     console.log("ID received:", id);
-    const updatedquestion = await QuestionAnswer.findByIdAndDelete(
+    const deletequestion = await QuestionAnswer.findByIdAndDelete(
       id,
-      newData,
-      { new: true }
-    );
-    if (!updatedquestion) {
-      res.status(404).json({ message: "No document found to update" });
-    } else {
+      newData, 
+    );  {
       res.json({ message: "Document deleted successfully" });
     }
   } catch (error) {
@@ -88,8 +84,7 @@ const getAllQuestion = async (req, res) => {
   try {
     const students = await QuestionAnswer.find({});
     res.json(students);
-  } catch (error) {
-    // If an error occurs, send an error response
+  } catch (error) { 
     console.error("Error retrieving student data:", error);
     res.status(500).json({ error: "Internal server error" });
   }

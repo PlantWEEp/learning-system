@@ -12,6 +12,14 @@ const studentRegister = z.object({
   role: z.string(),
 });
 
+const updateStudentsDetailes = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  phone: z.number().min(10),
+  designation: z.string(),
+  bankname: z.string(), 
+});
+
 const loginCredentials = z.object({
   email: z.string().email(),
   password: z.string(),
@@ -73,10 +81,11 @@ const registerStudent = async (req, res) => {
 };
 //update data
 const updateStudentRegister = async (req, res) => {
-  const id = req.params.id;
-  const newData = req.body;
+  const id = req.params.id; 
+  const studentDetailes = updateStudentsDetailes.parse(req.body);
+
   try {
-    const updatedquestion = await studentSchema.findByIdAndUpdate(id, newData, {
+    const updatedquestion = await studentSchema.findByIdAndUpdate(id, studentDetailes, {
       new: true,
     });
     if (!updatedquestion) {
@@ -112,8 +121,7 @@ const getStudentData = async (req, res) => {
   try {
     const students = await studentSchema.find({});
     res.json(students);
-  } catch (error) {
-    // If an error occurs, send an error response
+  } catch (error) { 
     console.error("Error retrieving student data:", error);
     res.status(500).json({ error: "Internal server error" });
   }
@@ -142,10 +150,12 @@ const studentLogin = async (req, res) => {
     // If password matches, generate token
     const token = jwt.sign(
       {
-        userId: student._id,
+        userId: user._id,
+        role: user.role  
       },
       process.env.JWT_KEY
     );
+    
 
     // Return token
     return res.status(200).json({ token });
@@ -154,6 +164,13 @@ const studentLogin = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+//mark as complete
+
+const markedCompleteQuestions= async (req,res)=>{
+  
+}
+
 
 module.exports = {
   registerStudent,

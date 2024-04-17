@@ -19,8 +19,12 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_KEY);
+
+
+    console.log("decoded token" , decoded) ;
+
     if (decoded.userId) {
-      req.userId = decoded.userId;
+      req.user = decoded; 
       next();
     } else {
       return res.status(403).json({ message: "Forbidden" });
@@ -36,11 +40,16 @@ const authMiddleware = (req, res, next) => {
 
 //role auth 
 function isAdmin(req, res, next) {
-  if (req.user && req.user.role === 'admin') {
+
+  console.log("role middleware", req.user);
+
+  if (req.user || req.user.userRole === 'admin') {
       return next();
   }
   res.status(403).json({ message: "Unauthorized" });
 }
+
+
 
 
 module.exports = { authMiddleware ,isAdmin };
