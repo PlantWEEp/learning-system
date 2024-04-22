@@ -15,10 +15,11 @@ const studentRegister = z.object({
 const updateStudentsDetailes = z.object({
   name: z.string(),
   email: z.string().email(),
-  phone: z.number().min(10),
+  phone: z.string().min(10),
   designation: z.string(),
   bankname: z.string(), 
 });
+
 
 const loginCredentials = z.object({
   email: z.string().email(),
@@ -79,16 +80,17 @@ const registerStudent = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
 //update data
 const updateStudentRegister = async (req, res) => {
-  const id = req.params.id; 
-  const studentDetailes = updateStudentsDetailes.parse(req.body);
+  const id = req.params.id;
+  const studentDetails = updateStudentsDetailes.parse(req.body);
 
   try {
-    const updatedquestion = await studentSchema.findByIdAndUpdate(id, studentDetailes, {
+    const updatedStudent = await studentSchema.findByIdAndUpdate(id, studentDetails, {
       new: true,
     });
-    if (!updatedquestion) {
+    if (!updatedStudent) {
       res.status(404).json({ message: "No document found to update" });
     } else {
       res.json({ message: "Document updated successfully" });
@@ -97,7 +99,8 @@ const updateStudentRegister = async (req, res) => {
     console.error("Error updating data:", error);
     res.status(500).json({ message: "Internal server error" });
   }
-};
+}; 
+
 //delete data
 const deleteStudentRegister = async (req, res) => {
   const id = req.params.id;
@@ -116,6 +119,7 @@ const deleteStudentRegister = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 //get data
 const getStudentData = async (req, res) => {
   try {
@@ -124,6 +128,21 @@ const getStudentData = async (req, res) => {
   } catch (error) { 
     console.error("Error retrieving student data:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const getOneStudent = async (req, res) => {
+  try {
+    const reqid = req.params.id;
+    const newData = req.body; 
+    const findStudent = await studentSchema.findById( reqid );
+    if (!findStudent) {
+      res.status(404).json({ message: "No document to be found" });
+    } else {
+      res.json(findStudent);
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Fail to get questios" });
   }
 };
 
@@ -166,7 +185,6 @@ const studentLogin = async (req, res) => {
 };
 
 //mark as complete
-
 const markedCompleteQuestions= async (req,res)=>{
   
 }
@@ -178,4 +196,5 @@ module.exports = {
   deleteStudentRegister,
   getStudentData,
   studentLogin,
+  getOneStudent
 };

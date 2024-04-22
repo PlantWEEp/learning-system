@@ -7,9 +7,9 @@ const { getStudentData } = require('../controllers/student');
  
 router.post('/login', adminLogin);
 router.post('/register', adminRegister); 
-router.post("/logout" , authMiddleware ,adminLogout);
-router.get('/get-student', authMiddleware ,isAdmin ,getStudentData);
-router.get('/adminprofile', authMiddleware ,isAdmin ,adminProfile)
-router.post('/updatepassword/:id',updatePassword)
+router.post("/logout" , authMiddleware, isAdmin("admin") ,adminLogout);
+router.get('/get-student', authMiddleware ,isAdmin("admin") ,getStudentData);
+router.get('/adminprofile', authMiddleware ,isAdmin("admin") ,adminProfile)
+router.post('/updatepassword/:id', authMiddleware, isAdmin("admin") ,updatePassword)
 
 module.exports = router;

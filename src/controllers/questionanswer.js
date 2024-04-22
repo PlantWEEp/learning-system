@@ -14,7 +14,7 @@ const questionanswerSchema = z.object({
   category: z.string(),
 });
 
-const studentanswers = async (req, res) => {
+const addQuestion = async (req, res) => {
   try {
     const questionanswerData = questionanswerSchema.parse(req.body);
 
@@ -68,10 +68,8 @@ const deleteAllQuestion = async (req, res) => {
 
   try {
     console.log("ID received:", id);
-    const deletequestion = await QuestionAnswer.findByIdAndDelete(
-      id,
-      newData, 
-    );  {
+    const deletequestion = await QuestionAnswer.findByIdAndDelete(id, newData);
+    {
       res.json({ message: "Document deleted successfully" });
     }
   } catch (error) {
@@ -80,21 +78,35 @@ const deleteAllQuestion = async (req, res) => {
   }
 };
 
+const getOneQuestion = async (req, res) => {
+  try {
+    const reqid = req.params.id;
+    const newData = req.body; 
+    const findquestion = await QuestionAnswer.findById( reqid );
+    if (!findquestion) {
+      res.status(404).json({ message: "No document to be found" });
+    } else {
+      res.json(findquestion);
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Fail to get questios" });
+  }
+};
+
 const getAllQuestion = async (req, res) => {
   try {
     const students = await QuestionAnswer.find({});
     res.json(students);
-  } catch (error) { 
+  } catch (error) {
     console.error("Error retrieving student data:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
- 
- 
 
 module.exports = {
-  studentanswers,
+  addQuestion,
   updatequestions,
   deleteAllQuestion,
-  getAllQuestion, 
+  getAllQuestion,
+  getOneQuestion,
 };

@@ -39,14 +39,16 @@ const authMiddleware = (req, res, next) => {
 };
 
 //role auth 
-function isAdmin(req, res, next) {
+function isAdmin(role) {
+  return (req, res, next) => {
+    console.log("role middleware", req.user);
 
-  console.log("role middleware", req.user);
-
-  if (req.user || req.user.userRole === 'admin') {
+    if (req.user && req.user.userRole === role) {
       return next();
-  }
-  res.status(403).json({ message: "Unauthorized" });
+    }
+    
+    res.status(403).json({ message: "Unauthorized" });
+  };
 }
 
 
