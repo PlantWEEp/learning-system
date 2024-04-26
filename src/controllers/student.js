@@ -20,7 +20,6 @@ const updateStudentsDetailes = z.object({
   bankname: z.string(), 
 });
 
-
 const loginCredentials = z.object({
   email: z.string().email(),
   password: z.string(),
@@ -103,13 +102,10 @@ const updateStudentRegister = async (req, res) => {
 
 //delete data
 const deleteStudentRegister = async (req, res) => {
-  const id = req.params.id;
-  const newData = req.body;
+  const id = req.params.id; 
   try {
-    const updatedquestion = await studentSchema.findByIdAndDelete(id, newData, {
-      new: true,
-    });
-    if (!updatedquestion) {
+    const deleteStudent = await studentSchema.findByIdAndDelete(id);
+    if (!deleteStudent) {
       res.status(404).json({ message: "No document found to delete" });
     } else {
       res.json({ message: "Document deleted successfully" });
