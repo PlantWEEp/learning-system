@@ -80,8 +80,7 @@ const deleteAllQuestion = async (req, res) => {
 
 const getOneQuestion = async (req, res) => {
   try {
-    const reqid = req.params.id;
-    const newData = req.body; 
+    const reqid = req.params.id; 
     const findquestion = await QuestionAnswer.findById( reqid );
     if (!findquestion) {
       res.status(404).json({ message: "No document to be found" });
@@ -89,7 +88,7 @@ const getOneQuestion = async (req, res) => {
       res.json(findquestion);
     }
   } catch (error) {
-    res.status(500).json({ error: "Fail to get questios" });
+    res.status(500).json({ error: "Fail to get one questios" });
   }
 };
 
@@ -98,7 +97,7 @@ const getAllQuestion = async (req, res) => {
     const students = await QuestionAnswer.find({});
     res.json(students);
   } catch (error) {
-    console.error("Error retrieving student data:", error);
+    console.error("Error retrieving student data:", error); 
     res.status(500).json({ error: "Internal server error" });
   }
 };
