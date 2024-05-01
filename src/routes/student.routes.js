@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registerStudent, updateStudentRegister, deleteStudentRegister, getStudentData, studentLogin, getOneStudent } = require('../controllers/student');
+const { registerStudent, updateStudentRegister, deleteStudentRegister, getStudentData, studentLogin, getOneStudent, studentCount } = require('../controllers/student');
 const { authMiddleware, isAdmin } = require('../middleware/authmiddlware');
   
 
@@ -11,6 +11,7 @@ router.post('/registerstudent', registerStudent);
 // Apply isAdmin middleware to routes that require admin access
 router.put('/:id', authMiddleware  ,isAdmin("admin")  ,  updateStudentRegister);
 router.delete('/:id', authMiddleware ,isAdmin("admin")  , deleteStudentRegister);
+router.get ("/studentcount",authMiddleware,isAdmin("admin"),studentCount);
 router.get('/get-student', authMiddleware ,isAdmin("admin")  ,  getStudentData);
 router.get('/:id', authMiddleware ,isAdmin("admin")  ,  getOneStudent);
 

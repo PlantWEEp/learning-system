@@ -80,6 +80,44 @@ const registerStudent = async (req, res) => {
   }
 };
 
+//student login
+const studentLogin = async (req, res) => {
+  try {
+    const studentData = loginCredentials.parse(req.body);
+    const { email, password } = studentData;
+
+    // Checking if email exists in the database
+    const student = await studentSchema.findOne({ email  });
+
+    if (!student) {
+      return res.status(404).json({ message: "Email-id is not found" });
+    }
+
+    // Checking if the password matches
+    const passwordMatch = (password === student.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ message: "Incorrect password" });
+    }
+
+    // If password matches, generate token
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        role: user.role  
+      },
+      process.env.JWT_KEY
+    );
+    
+
+    // Return token
+    return res.status(200).json({ token });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 //update data
 const updateStudentRegister = async (req, res) => {
   const id = req.params.id;
@@ -129,8 +167,7 @@ const getStudentData = async (req, res) => {
 
 const getOneStudent = async (req, res) => {
   try {
-    const reqid = req.params.id;
-    const newData = req.body; 
+    const reqid = req.params.id; 
     const findStudent = await studentSchema.findById( reqid );
     if (!findStudent) {
       res.status(404).json({ message: "No document to be found" });
@@ -140,51 +177,29 @@ const getOneStudent = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Fail to get questios" });
   }
-};
-
-//student login
-const studentLogin = async (req, res) => {
-  try {
-    const studentData = loginCredentials.parse(req.body);
-    const { email, password } = studentData;
-
-    // Checking if email exists in the database
-    const student = await studentSchema.findOne({ email  });
-
-    if (!student) {
-      return res.status(404).json({ message: "Email-id is not found" });
-    }
-
-    // Checking if the password matches
-    const passwordMatch = (password === student.password);
-
-    if (!passwordMatch) {
-      return res.status(401).json({ message: "Incorrect password" });
-    }
-
-    // If password matches, generate token
-    const token = jwt.sign(
-      {
-        userId: user._id,
-        role: user.role  
-      },
-      process.env.JWT_KEY
-    );
-    
-
-    // Return token
-    return res.status(200).json({ token });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
-};
+}; 
 
 //mark as complete
 const markedCompleteQuestions= async (req,res)=>{
   
 }
 
+//count of students
+const studentCount = async(req,res)=>{
+  try {
+    const count = await studentSchema.aggregate([
+      {
+          $group: {
+              _id: null,
+              count: { $sum: 1 }
+          }
+      }
+  ]);
+    res.json({ count });
+} catch (err) {
+    res.status(500).json({ message: err.message });
+}
+}
 
 module.exports = {
   registerStudent,
@@ -192,5 +207,6 @@ module.exports = {
   deleteStudentRegister,
   getStudentData,
   studentLogin,
-  getOneStudent
+  getOneStudent,
+  studentCount
 };

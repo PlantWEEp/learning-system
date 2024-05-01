@@ -102,10 +102,28 @@ const getAllQuestion = async (req, res) => {
   }
 };
 
+//count of students
+const questionCount = async(req,res)=>{
+  try {
+    const count = await QuestionAnswer.aggregate([
+      {
+          $group: {
+              _id: null,
+              count: { $sum: 1 }
+          }
+      }
+  ]);
+  res.json({ count: count.length > 0 ? count[0].count : 0 });
+} catch (err) {
+    res.status(500).json({ message: err.message });
+}
+}
+
 module.exports = {
   addQuestion,
   updatequestions,
   deleteAllQuestion,
   getAllQuestion,
   getOneQuestion,
+  questionCount,
 };
