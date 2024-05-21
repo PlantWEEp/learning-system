@@ -12,20 +12,19 @@ const studentSchema = new Schema({
         unique: true
     },
     phone: {
-        type: Number,
+        type: String,
         required: true
     },
     designation: {
         type: String,
         required: true,
-        enum: ['Central Bank of India', 'State Bank of India']
     },
     bankname: {
         type: String,
         required: true
     },
     UPItransactionid: {
-        type: Number,
+        type: String,
         required: true,
         unique: true
     },
