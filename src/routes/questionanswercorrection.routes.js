@@ -10,7 +10,7 @@ const {
 } = require("../controllers/questionanswer");
 const { authMiddleware, isAdmin } = require("../middleware/authmiddlware"); 
 
-router.post( "/questionanswer", authMiddleware, isAdmin("admin"),  addQuestion);
+router.post( "/add-questions", authMiddleware, isAdmin("admin"),  addQuestion);
 router.get("/question/:id", authMiddleware, isAdmin("admin"), getOneQuestion);
 router.put("/:id", authMiddleware, isAdmin("admin"), updatequestions);
 router.delete("/:id", authMiddleware, isAdmin("admin"), deleteAllQuestion);
