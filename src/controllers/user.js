@@ -44,8 +44,7 @@ const adminRegister = async (req, res) => {
     await createUser.save();
 
     res.status(200).json({ message: "Successfully registered" });
-  } catch (error) {
-    console.error(error);
+  } catch (error) { 
     res.status(400).json({ message: "Failed to register" });
   }
 };
@@ -54,16 +53,13 @@ const adminRegister = async (req, res) => {
 const adminLogin = async (req, res) => {
   try {
     const adminLog = req.body;  
-
-    console.log(adminLog);
+ 
 
     const { email, password } = adminLog;
-
-    console.log("adminLog", adminLog);
+ 
 
     const adminUser = await Admin.findOne({ email });
-
-    console.log("adminUserssss", adminUser);
+ 
 
     if (!adminUser) {
       return res.status(401).json({ error: "Invalid email" });
@@ -82,15 +78,11 @@ const adminLogin = async (req, res) => {
         userRole: adminUser.role,
       },
       process.env.JWT_KEY
-    );
-    console.log("adminUser02",adminUser);
+    ); 
     const roleToken = jwt.verify(token, process.env.JWT_KEY);
-
-    console.log("roleToken",roleToken);
-
+ 
     res.status(200).json({ token });
-  } catch (error) {
-    console.error(error);
+  } catch (error) { 
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -100,8 +92,7 @@ const adminLogout = async (req, res) => {
   try {
     res.clearCookie("token");
     res.status(200).json({ message: "Logout successful" });
-  } catch (error) {
-    console.error(error);
+  } catch (error) { 
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -109,8 +100,7 @@ const adminLogout = async (req, res) => {
 //admin detailes
 const adminProfile = async (req, res) => {
   try {
-    const adminId = req.user.userId;
-    console.log(adminId);
+    const adminId = req.user.userId; 
     const admin = await Admin.findById(adminId);
 
     if (!admin) {
@@ -118,8 +108,7 @@ const adminProfile = async (req, res) => {
     }
 
     res.json(admin);
-  } catch (error) {
-    console.error("Error retrieving admin data:", error);
+  } catch (error) { 
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -154,8 +143,7 @@ const updatePassword = async (req, res) => {
         errors: updatePasswordData.error,
       });
     }
-  } catch (error) {
-    console.error("Error updating password:", error);
+  } catch (error) { 
     res
       .status(500)
       .json({ message: "Internal Server Error updating password" });

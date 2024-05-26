@@ -74,8 +74,7 @@ const registerStudent = async (req, res) => {
     });
 
     res.status(200).json({ message: "User registered successfully" });
-  } catch (error) {
-    console.error(error);
+  } catch (error) { 
     res.status(400).json({ message: error.message });
   }
 };
@@ -112,9 +111,8 @@ const studentLogin = async (req, res) => {
 
     // Return token
     return res.status(200).json({ token });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal server error" });
+  } catch (error) { 
+    return res.status(400).json({ message: "Internal server error" });
   }
 };
 
@@ -132,9 +130,8 @@ const updateStudentRegister = async (req, res) => {
     } else {
       res.json({ message: "Document updated successfully" });
     }
-  } catch (error) {
-    console.error("Error updating data:", error);
-    res.status(500).json({ message: "Internal server error" });
+  } catch (error) { 
+    res.status(400).json({ message: "Internal server error" });
   }
 }; 
 
@@ -148,8 +145,7 @@ const deleteStudentRegister = async (req, res) => {
     } else {
       res.json({ message: "Document deleted successfully" });
     }
-  } catch (error) {
-    console.error("Error updating data:", error);
+  } catch (error) { 
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -159,8 +155,7 @@ const getStudentData = async (req, res) => {
   try {
     const students = await studentSchema.find({});
     res.json(students);
-  } catch (error) { 
-    console.error("Error retrieving student data:", error);
+  } catch (error) {  
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -197,7 +192,7 @@ const studentCount = async(req,res)=>{
   ]);
     res.json({ count });
 } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(400).json({ message: err.message });
 }
 }
 

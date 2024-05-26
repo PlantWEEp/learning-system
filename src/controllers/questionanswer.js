@@ -34,8 +34,7 @@ const addQuestion = async (req, res) => {
     await createQuestions.save();
 
     res.json({ message: "Document updated successfully" });
-  } catch (error) {
-    console.error(error);
+  } catch (error) { 
     res.status(400).json({
       success: false,
       message: "Failed to create question-answer pair",
@@ -58,9 +57,8 @@ const updatequestions = async (req, res) => {
     } else {
       res.json({ message: "Document updated successfully" });
     }
-  } catch (error) {
-    console.error("Error updating data:", error);
-    res.status(500).json({ message: "Internal server error" });
+  } catch (error) { 
+    res.status(400).json({ message: "Internal server error" });
   }
 };
 
@@ -68,14 +66,12 @@ const deleteAllQuestion = async (req, res) => {
   const id = req.params.id;
   const newData = req.body;
 
-  try {
-    console.log("ID received:", id);
+  try { 
     const deletequestion = await QuestionAnswer.findByIdAndDelete(id, newData);
     {
       res.json({ message: "Document deleted successfully" });
     }
-  } catch (error) {
-    console.error("Error updating data:", error);
+  } catch (error) { 
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -98,8 +94,7 @@ const getAllQuestion = async (req, res) => {
   try {
     const students = await QuestionAnswer.find({});
     res.json(students);
-  } catch (error) {
-    console.error("Error retrieving student data:", error); 
+  } catch (error) { 
     res.status(500).json({ error: "Internal server error" });
   }
 };
