@@ -21,7 +21,7 @@ const questionSchema = new Schema({
   category: {
     type: String,
     required: true,
-    enum: ["Basic", "Advance", "Higher"],
+    enum: ["basic", "advance", "higher"],
   },
 });
  

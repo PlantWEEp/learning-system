@@ -21,9 +21,11 @@ const addQuestion = async (req, res) => {
     const { description, choices, question, sectionName, category } =
       questionanswerData;
 
+    const sectionNameUrl = sectionName.replace(/\s+/g, "-") 
+
     const createQuestions = await QuestionAnswer.create({
       description,
-      sectionName,
+      sectionName : sectionNameUrl,
       choices,
       question,
       category,
@@ -102,7 +104,7 @@ const getAllQuestion = async (req, res) => {
   }
 };
 
-//count of students
+//count of students using aggregate
 const questionCount = async(req,res)=>{
   try {
     const count = await QuestionAnswer.aggregate([

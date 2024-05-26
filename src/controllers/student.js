@@ -208,5 +208,6 @@ module.exports = {
   getStudentData,
   studentLogin,
   getOneStudent,
-  studentCount
+  studentCount,
+  markedCompleteQuestions
 };
