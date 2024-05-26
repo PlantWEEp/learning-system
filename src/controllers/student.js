@@ -17,7 +17,7 @@ const updateStudentsDetailes = z.object({
   email: z.string().email(),
   phone: z.string().min(10),
   designation: z.string(),
-  bankname: z.string(), 
+  bankname: z.string(),
 });
 
 const loginCredentials = z.object({
@@ -74,7 +74,7 @@ const registerStudent = async (req, res) => {
     });
 
     res.status(200).json({ message: "User registered successfully" });
-  } catch (error) { 
+  } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
@@ -86,14 +86,14 @@ const studentLogin = async (req, res) => {
     const { email, password } = studentData;
 
     // Checking if email exists in the database
-    const student = await studentSchema.findOne({ email  });
+    const student = await studentSchema.findOne({ email });
 
     if (!student) {
       return res.status(404).json({ message: "Email-id is not found" });
     }
 
     // Checking if the password matches
-    const passwordMatch = (password === student.password);
+    const passwordMatch = password === student.password;
 
     if (!passwordMatch) {
       return res.status(401).json({ message: "Incorrect password" });
@@ -103,15 +103,14 @@ const studentLogin = async (req, res) => {
     const token = jwt.sign(
       {
         userId: user._id,
-        role: user.role  
+        role: user.role,
       },
       process.env.JWT_KEY
     );
-    
 
     // Return token
     return res.status(200).json({ token });
-  } catch (error) { 
+  } catch (error) {
     return res.status(400).json({ message: "Internal server error" });
   }
 };
@@ -122,22 +121,26 @@ const updateStudentRegister = async (req, res) => {
   const studentDetails = updateStudentsDetailes.parse(req.body);
 
   try {
-    const updatedStudent = await studentSchema.findByIdAndUpdate(id, studentDetails, {
-      new: true,
-    });
+    const updatedStudent = await studentSchema.findByIdAndUpdate(
+      id,
+      studentDetails,
+      {
+        new: true,
+      }
+    );
     if (!updatedStudent) {
       res.status(404).json({ message: "No document found to update" });
     } else {
       res.json({ message: "Document updated successfully" });
     }
-  } catch (error) { 
+  } catch (error) {
     res.status(400).json({ message: "Internal server error" });
   }
-}; 
+};
 
 //delete data
 const deleteStudentRegister = async (req, res) => {
-  const id = req.params.id; 
+  const id = req.params.id;
   try {
     const deleteStudent = await studentSchema.findByIdAndDelete(id);
     if (!deleteStudent) {
@@ -145,7 +148,7 @@ const deleteStudentRegister = async (req, res) => {
     } else {
       res.json({ message: "Document deleted successfully" });
     }
-  } catch (error) { 
+  } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -155,15 +158,15 @@ const getStudentData = async (req, res) => {
   try {
     const students = await studentSchema.find({});
     res.json(students);
-  } catch (error) {  
+  } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
 const getOneStudent = async (req, res) => {
   try {
-    const reqid = req.params.id; 
-    const findStudent = await studentSchema.findById( reqid );
+    const reqid = req.params.id;
+    const findStudent = await studentSchema.findById(reqid);
     if (!findStudent) {
       res.status(404).json({ message: "No document to be found" });
     } else {
@@ -172,29 +175,27 @@ const getOneStudent = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Fail to get questios" });
   }
-}; 
+};
 
 //mark as complete
-const markedCompleteQuestions= async (req,res)=>{
-  
-}
+const markedCompleteQuestions = async (req, res) => {};
 
 //count of students
-const studentCount = async(req,res)=>{
+const studentCount = async (req, res) => {
   try {
     const count = await studentSchema.aggregate([
       {
-          $group: {
-              _id: null,
-              count: { $sum: 1 }
-          }
-      }
-  ]);
+        $group: {
+          _id: null,
+          count: { $sum: 1 },
+        },
+      },
+    ]);
     res.json({ count });
-} catch (err) {
+  } catch (err) {
     res.status(400).json({ message: err.message });
-}
-}
+  }
+};
 
 module.exports = {
   registerStudent,
@@ -204,5 +205,5 @@ module.exports = {
   studentLogin,
   getOneStudent,
   studentCount,
-  markedCompleteQuestions
+  markedCompleteQuestions,
 };
