@@ -5,7 +5,7 @@ const helmet = require('helmet');
 require('dotenv').config();
 
 const app = express(); 
-
+app.use(express.static('dist'))
 app.use(bodyParser.json());
 app.use(helmet());
 
@@ -16,6 +16,7 @@ const studentRoutes = require('./routes/student.routes');
 app.use('/api/v1/admin', userRoutes);
 app.use('/api/v1/question', questionRoutes);
 app.use('/api/v1/student', studentRoutes);
+app.use(express.static('public'))
 
 connectDB()
   .then(() => {
